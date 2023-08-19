@@ -1,4 +1,4 @@
-# 1 - Architecture of paginated memory
+# 1 - Architecture of paginated memory (simplified / segmentated memory)
 - Physical memory is paginated, structured in blocks of 4 kilo bytes (usually)
 - Each process has it's virtual paginated address space, structured in blocks of 4 kilo bytes (usually)
 - The OS uses a schema of pagination, where for each process, they have a table that maps virtual addresses to physical ones. The formation of this association is a privileged action and is done by the kernel. We can call this the **table of pages**
@@ -46,11 +46,43 @@
 ### Total physical memory used by the mapping tables of 10 processes
 - Since each process uses 4 Mby, 10 processes will ocupy 40 Mby.
 
-# 3 - Tables of multi-level translation
+# 3 - Tables of multi-level translation (non-segmented)
 - To cut down the amount of memory used by mapping tables, this concept was introduced
+- So now, processes can use a much more custom amount of memory
 - Where the 20 bits of the page frame are divided into 2 parts of 10 bits. Where the bit-most significant part is the **page directory index** and the other is the **page table index**
 - The **page directory index** will point to another table, of a 2nd level
 - The **page table index** will point to the index of that 2nd table
 - But these other tables are optional, meaning that processes that don't use many addresses, can now have their pages with smaller sizes
-- So basically, all processes previously had to occupy 4 Mby. But now that a table entry can only use 10 bytes to reference a table, it can now point to an amount up to 1 KiloBytes (2^10) instead of 1 MegaBytes (2^20) 
+- So basically, all processes previously had to occupy 4 Mby. But now that a table entry can only use 10 bytes to reference a table, it can now point to an amount up to 1 KiloBytes (2^10) instead of 1 MegaBytes (2^20)
+
+# 4 - Similar Exercise as *2* but w/ 2 translation levels
+## Given the environment
+- Virtual & Physical addresses w/ 32bits (4GB)
+- Table of address pages of 4 KiloBytes
+- 12 extra bits are used for the configuration of each entry of the mapping in the table
+- **There are 2 levels of page translation, with 10 bits each**
+
+### Total size of a table mapping
+- Now that each table is indexed w/ 10 bits (not 20), each has 1024 (2^10) entries
+- These entries have 4 bytes
+- So each mapping-table has 4 Bytes * 1024 = 4 KiloBytes
+
+### Min & Max size of the tables mapping of a process
+- The Min will be 8 KiloBytes because there has to be 2 tables of 4 KiBy for the architecture to work. The Page Directory (pointed by the most significant 10 bits) and the 2nd Level Page Table (pointed by the least significant 10 bits)
+- The Max will be all the 2nd level table w/ all the mapping in use 4 MegaBytes (1024*4KiBy), PLUS, the 1st level Table with 4KiloBytes -> 4096 KiBy (4MegBy) + 4 KiBy = 4100 KiBy,
+
+### Min & Max size used in the physical memory by the tables mapping of 10 processes w/ 16 Kilobytes worth of virtual address spaces
+- Min -> The 1st level table is of dimension 4KiBy, the 2nd level table is of dimension 4KiBy. And this table will have 4 page entries, and each of these should point to a table in physical memory of 4KiBy to make up for the 16 KiBy
+- Max -> In the worst case, each of the 4 page entries would be in 4 different 2nd level tables. So we remain w/ 1 1st level table of 4KiBy, with 4 2nd level tables of 4 KiBy = 16 KiBy. The sum will be 20KiBy. So 10 processes will occupy 200KiBy
+
+## Note about the error "Segmentation fault"
+- This error is common in C/C++ programs and it's in fact an old message of the time where the architecture of segmentated memory was mostly used (although Linux always had paginated architecture)
+- It actually means "memory address translation fault" or "invalid address"
+
+# 5 - [Part2](./README2.md)
+# References
+- https://people.cs.rutgers.edu/~pxk/416/notes/10-paging.html
+- https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/8_MainMemory.html
+- https://www.gbmb.org/mb-to-kb
+- https://cs.hac.ac.il/staff/martin/Micro_Modern/slide03.pdf (may not be very informative)
 

@@ -23,7 +23,7 @@ void onSignalInterrupt(int signum) { //makes program immune to $ kill -TERM <PID
 
 int main() {
 	struct sigaction actionAlarm;
-	//memset(&actionAlarm, 0, sizeof (struct sigaction));
+	//memset(&actionAlarm, 0, sizeof (struct sigaction)); //not needed
 	actionAlarm.sa_handler = onSignalAlarm;
 
 	struct sigaction actionTermination;

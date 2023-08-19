@@ -63,6 +63,11 @@ $ cat < hello.txt > anotherhello.txt //The cmds will execute from left to right
 - `waitpid(childProcessID, &childReturnedValue, 0);` Makes so the current process wait for a process (normally it's child) to terminate. The 0 is the options param.
 - The parent must call waitpid() for it's child processes to finish, otherwise, the child's process will be in a state called Zombie (after it exists with a return value), because the Child is waiting for the Parent to collect it's returned value. If the Parent is terminated, the Child will be orphan, and the process 1 ( AKA process "init" ran by the Unix OS) will perform that call to terminate the child process
 
+## Note - Printing processes to console
+- ps -e
+- ps -aux (prints more info)
+- ps (prints only info about the current opened terminal)
+
 # References
 - https://www.ibm.com/docs/en/aix/7.1?topic=programming-understanding-threads-processes
 - https://www.ibm.com/docs/en/aix/7.1?topic=volumes-using-file-descriptors
