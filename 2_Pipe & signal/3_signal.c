@@ -5,6 +5,8 @@
 #include <stdbool.h>
 #include <bits/sigaction.h> //cuz of struct sigaction
 
+#define __USE_POSIX = 1
+
 // gcc 3_signal.c
 
 volatile bool done = false; //volatile tells the compiler to now optimize reads to this variable because it will be used beyong the scope of what the compiler is aware of. In this case, the variable will be accessed by other processes
