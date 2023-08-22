@@ -3,7 +3,7 @@
 #include <sys/types.h> //cuz of pid_t
 #include <sys/wait.h> //cuz of waitpid()
 
-// gcc 4_exclp_w_grep_2_way_comunication.c
+// gcc 3_exclp_w_grep_2_way_comunication.c
 
 int main(int argc, char* argv[]) {
 
@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
         printf("CHILD: pid=%d; Parent PID=%d\n", getpid(), getppid());
 
         //dup2(pipefd_parentToChild[0], 0); //make stdin of child point to a read edge that the parent writes to
-        dup2(pipefd[1], 1); //make stdout of child point to a write pipe
+        dup2(pipefd[1], 1); //duplicate stdout of child to a write pipe
 
         char msg[300];
 		read(pipefd_parentToChild[0], msg, 300); //blocking

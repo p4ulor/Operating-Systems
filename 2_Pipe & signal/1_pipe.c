@@ -7,8 +7,7 @@
 
 int main(int argc, char* argv[]) {
     int pipefd[2];
-	pipe(pipefd); //if no other file descp are set, the array will be [3, 4]. 1st pipe is for reads, the 2nd is for writes. Bytes written on pipefd[1] can be read from pipefd[0].
-    printf("pipe[0]=%d pipe[1]=%d\n", pipefd[0], pipefd[1]);
+	pipe(pipefd); //if no other file descp are set, the array will be [3, 4]
 	
 	pid_t pid = fork(); //pid==0 for the Child, pid==Child_PID for the Parent
 	if (pid == 0) {
@@ -17,16 +16,25 @@ int main(int argc, char* argv[]) {
         close(pipefd[0]); // close the edge we're not gonna use (not really required)
         puts("Will say hi to parent");
 		sleep(2);
-		write(pipefd[1], "Hi parent\n", 10);
+
+        dup2(pipefd[1], 1);
+        write(pipefd[1], "Hi parent\n", 11);
     }
     else if (pid == -1) puts("Out of memory O.O ?");
 	else {
         printf("PARENT: pid=%d; Child PID=%d\n", getpid(), pid);
 
-        close(pipefd[1]); 
+        close(pipefd[1]); //close other edge (not necessary)
 		printf("PARENT: waiting for message from child\n");
+
+        //MUST WAIT FOR CHILD PROCESS TO FINISH (try removing it)
+        int childReturnedValue; //will have a specially formatted value, not the plain return value
+        waitpid(pid, &childReturnedValue, 0);
+
+        //Read from the read pipe edge, which contains bytes from the write edge
+        dup2(pipefd[0], 0);
 		char msg[11];
-		read(pipefd[0], msg, 10); //blocking
+        read(pipefd[0], msg, 11); //blocking
         printf("PARENT: child sent message %s\n", msg);
     }
 

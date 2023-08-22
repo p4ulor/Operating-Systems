@@ -13,8 +13,8 @@ int main(int argc, char* argv[]) {
 	if (pid == 0) {
         printf("CHILD: pid=%d; Parent PID=%d\n", getpid(), getppid());
 
-        //dup2(pipefd[0], 0); //make stdin of child point to a read pipe edge
-        dup2(pipefd[1], 1); //make stdout of child point to a write pipe
+        //dup2(pipefd[0], 0); //duplicate stdin of child to a read pipe edge
+        dup2(pipefd[1], 1); //duplicate stdout of child to a write pipe
 
         //ADDED - The child process executes this program w/ arguments
         execlp("grep", "grep", "#", "4_exclp_w_grep.c", NULL); //make sure a.out is this program
@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
 	else {
         printf("PARENT: pid=%d; Child PID=%d\n", getpid(), pid);
 
-        //dup2(pipefd[0], 1); //make Parent stdout point to pipefd[1]
+        //dup2(pipefd[0], 1); //duplicate Parent stdout to pipefd[1]
 
         char msg[300];
 		read(pipefd[0], msg, 300); //blocking, use the other pipe edge to read the bytes written from the pipefd[1] edge
