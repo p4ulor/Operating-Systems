@@ -11,7 +11,13 @@
             "string.h": "c",
             "stdio.h": "c",
             "signal.h": "c",
-            "unistd.h": "c"
+            "unistd.h": "c",
+            "atomic": "c",
+            "condition_variable": "c",
+            "mutex": "c",
+            "shared_mutex": "c",
+            "__mutex_base": "c",
+            "semaphore": "c"
         }
     }
 }
