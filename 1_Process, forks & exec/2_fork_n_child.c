@@ -29,7 +29,7 @@ int main() {
         int childReturn = 0;
         while ((child_pid = wait(&childReturn)) > 0); // this way, the father waits for all the child processes
         if(WIFEXITED(childReturn)){
-            printf("Last child returned %d\n", WEXITSTATUS(childReturn)); //WEXITSTATUS converts the returned value into a valid one. This is because the OG returned value is bundled w/ other info, and WEXITSTATUS extracts what's our actual return value by the process
+            printf("Last child returned %d\n", WEXITSTATUS(childReturn)); //WEXITSTATUS converts the returned value (the last one) into a valid one. This is because the OG returned value is bundled w/ other info, and WEXITSTATUS extracts what's our actual return value by the process
         }
     }
 

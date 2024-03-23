@@ -29,11 +29,11 @@ int main() {
 	actionAlarm.sa_handler = onSignalAlarm;
 
 	struct sigaction actionTermination;
-	//memset(&actionTermination, 0, sizeof (struct sigaction));
+	//memset(&actionTermination, 0, sizeof (struct sigaction)); //not needed
 	actionTermination.sa_handler = onSignalTermination;
 
 	struct sigaction actionInterruption;
-	//memset(&actionInterruption, 0, sizeof (struct sigaction));
+	//memset(&actionInterruption, 0, sizeof (struct sigaction)); //not needed
 	actionInterruption.sa_handler = onSignalInterrupt;
 	
 	sigaction(SIGALRM, &actionAlarm, NULL);

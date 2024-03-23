@@ -17,3 +17,4 @@
 My list of cloned repos regarding this topic
 - https://github.com/isel-leic-so/SO-2021v-LI42D
 - https://github.com/isel-leic-tvs/tvs-2223-1-leic51d
+- https://github.com/RicardoPinto26/ISEL-LEIC-TVS-ALL_TEST_SOLUTIONS

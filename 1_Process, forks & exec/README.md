@@ -25,6 +25,7 @@ Hello
 $ cat < hello.txt // Read from file. The '<' is optional actually
 Hello
 $ 
+$ ./a.out 2>&1 // Redirects the file descriptor 2 to the file descriptor 1
 ```
 
 ### Note
@@ -43,6 +44,7 @@ $ cat < hello.txt > anotherhello.txt //The cmds will execute from left to right
 
 # 3 - fork()
 - fork() duplicates the current process. The addresses, the exact code & instructions (including the returned PID integer) of the fork() after the method call will be distinct for the parent process (the one that called the method) and the child process. The parent will have the returned PID of the child and the child will have 0 returned to it. -1 is returned to the process that called fork() if there's no memory or in other strange cases
+- The child process will have a copy of the same file descriptors as the parent upon the fork
 - The current process can call `getpid()` to get it's PID
 - A process that has a parent can call `getppid()` to get it's parent PID
 - The address spaces & memory will be different

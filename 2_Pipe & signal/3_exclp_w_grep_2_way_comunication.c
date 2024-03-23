@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
         printf("CHILD: pid=%d; Parent PID=%d\n", getpid(), getppid());
 
         //dup2(pipefd_parentToChild[0], 0); //make stdin of child point to a read edge that the parent writes to
-        dup2(pipefd[1], 1); //duplicate stdout of child to a write pipe
+        dup2(pipefd[1], 1); //duplicate stdout of child to the write index of the pipe
 
         char msg[300];
 		read(pipefd_parentToChild[0], msg, 300); //blocking
@@ -33,10 +33,10 @@ int main(int argc, char* argv[]) {
 	else {
         printf("PARENT: pid=%d; Child PID=%d\n", getpid(), pid);
 
-        write(pipefd_parentToChild[1], "#", 2);
+        write(pipefd_parentToChild[1], "#", 2); // will be the input for 'grep' to be the char to search
 
         //MUST WAIT FOR CHILD PROCESS TO FINISH (try removing it)
-        int childReturnedValue; //will have a specially formatted value, not the plain return value
+        int childReturnedValue; //will have a specially formatted value, not the plain return value (explained in the next file 4_...)
         waitpid(pid, &childReturnedValue, 0);
 
         char msg[300];

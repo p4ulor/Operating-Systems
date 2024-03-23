@@ -17,7 +17,9 @@
             "mutex": "c",
             "shared_mutex": "c",
             "__mutex_base": "c",
-            "semaphore": "c"
+            "semaphore": "c",
+            "types.h": "c",
+            "wait.h": "c"
         }
     }
 }

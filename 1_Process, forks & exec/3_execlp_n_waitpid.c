@@ -16,9 +16,9 @@ int main(int argc, char* argv[]) {
 	if (pid == 0) {
         printf("CHILD: pid=%d; Parent PID=%d\n", getpid(), getppid());
 
-        //ADDED - The child process executes this program w/ arguments
-        execlp("./a.out", "a", "1", NULL); //make sure a.out is this program
-		puts("SHOULD NEVER GET HERE OR FURTHER!");
+        //ADDED - The child process, replaces the process contents, and executes this program w/ arguments
+        execlp("./a.out", "a", "1", NULL); //make sure a.out is this program. "l" is for list, "p" is for path, meaning it can get programs for path enviornment variables
+		puts("SHOULD NEVER GET HERE OR FURTHER! Unless the program doesnt exist or the program crashes");
     }
     else if (pid == -1) puts("Out of memory O.O ?");
 	else {

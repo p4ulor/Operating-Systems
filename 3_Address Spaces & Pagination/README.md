@@ -4,15 +4,15 @@
 - The OS uses a schema of pagination, where for each process, they have a table that maps virtual addresses to physical ones. The formation of this association is a privileged action and is done by the kernel. We can call this the **table of pages**
 # Example
 - Let's imagine we are in a 32bit system
-- 4 kilo bytes = 4096 bytes, which can be covered by 12 positions of bits = 2^12. So these bits are used used as the **offset** to identify a position of memory starting at a certain physical address indicated by the **table of pages**, and 4095 is it's maximum value, because we don't use offset==0
-- 32-12 = 20. With these remaining 2^20 positions, we can identify a page number. This is the number (address) used to go through the table that associates virtual addresses to physical address
+- 4 kilo bytes = 4096 bytes, which can be covered by 12 bits = 2^12. So these bits are used used as the **offset** to identify a position of memory starting at a certain physical address indicated by the **table of pages**, and 4095 is it's maximum value, because we don't use offset==0
+- 32-12 = 20. With these remaining 2^20 positions, we can identify a page number. This is the number (address) used to go to the table that associates virtual addresses to physical address
 - After the kernel obtains the physical address, it uses the **offset** to calculate the actual & final address of memory
 
 ## Retrospective
 - So in reality, before a process accesses a variable in physical memory (RAM), it first consults a part of the memory (RAM) to obtain a variable in memory
 
 ## Translation lookaside buffer
-- Given this constant memory access, this buffer was exists in most OS in order to cache and thus speed up the memory accesses
+- Given this constant memory access, this buffer exists in most OS in order to cache and thus speed up the memory accesses
 - This was inspired by the fact of the principle of localization -> If I used an address, it's likely that I will use it again & If I used an address, it's likely that I will access a variable near to it. 
 - It contains the cached & converted virtual addressed to physical addressed
 
@@ -48,7 +48,7 @@
 
 # 3 - Tables of multi-level translation (non-segmented)
 - To cut down the amount of memory used by mapping tables, this concept was introduced
-- So now, processes can use a much more custom amount of memory
+- So now, processes can use a much more custom and smaller amount of memory
 - Where the 20 bits of the page frame are divided into 2 parts of 10 bits. Where the bit-most significant part is the **page directory index** and the other is the **page table index**
 - The **page directory index** will point to another table, of a 2nd level
 - The **page table index** will point to the index of that 2nd table
