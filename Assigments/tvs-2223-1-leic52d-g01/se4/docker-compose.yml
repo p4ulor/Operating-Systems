@@ -1,0 +1,32 @@
+services:
+  elasticsearch:
+    image: elasticsearch:8.5.2
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    networks:
+      - tvsnet
+      - tvselastic
+  tvssvc:
+    image: tvsapp:latest
+    environment:
+      - ELASTIC_URL=http://elasticsearch:9200
+    networks:
+      - tvsnet
+      - tvselastic
+    depends_on:
+          - elasticsearch
+  entry:
+    image: nginx:alpine
+    ports:
+      - 8088:80
+    networks:
+      - tvsnet
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d
+networks:
+  tvsnet:
+  tvselastic:

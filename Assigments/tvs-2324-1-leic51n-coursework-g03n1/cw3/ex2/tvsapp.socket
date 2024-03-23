@@ -1,0 +1,8 @@
+[Unit]
+Description=TVS daemon activation socket
+
+[Socket]
+ListenStream=/run/isel/tvsctld/request
+
+[Install]
+WantedBy=sockets.target

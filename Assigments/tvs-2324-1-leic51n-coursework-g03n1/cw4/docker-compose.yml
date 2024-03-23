@@ -1,0 +1,37 @@
+name: "tvs-g03"
+
+services:
+  datastore:
+    image: elasticsearch:8.11.1
+    container_name: datastore # necessary if the container name is always starting like "datastore-1", overcomes error: "ENOTFOUND"
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    volumes:
+      - ./elasticsearch_db_volume:/usr/share/elasticsearch/data
+    networks:
+      - webapp-data
+
+  webapp:
+    image: webapp
+    build:
+      context: ./tvsapp #to acess the Dockerfile file in folder /tvsapp
+      dockerfile: ./Dockerfile
+    environment:
+      - ELASTIC_URL=http://datastore:9200 # The missing piece to fix "ECONNREFUSED" https://stackoverflow.com/a/64630279
+    networks:
+      - webapp-data
+      - webapp-entry
+
+  entry:
+    image: nginx:alpine
+    ports:
+      - 2023:80 # Exterior : Interior
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf #copying the file to the container
+    networks:
+      - webapp-entry
+
+networks:
+  webapp-entry: {}
+  webapp-data: {}

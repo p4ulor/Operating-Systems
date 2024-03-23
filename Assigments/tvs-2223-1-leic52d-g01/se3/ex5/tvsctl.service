@@ -1,0 +1,13 @@
+[Unit]
+Description=TVS Control Application
+Requires=nginx.service
+Requires=tvsctl.socket
+
+[Service]
+ExecStart=/opt/isel/tvs/tvsctl/bin/tvsctl
+Restart=no
+
+[Install]
+Also=tvsapp@.service
+WantedBy=multi-user.target
+

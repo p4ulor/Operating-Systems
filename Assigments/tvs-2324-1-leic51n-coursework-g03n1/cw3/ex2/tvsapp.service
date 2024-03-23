@@ -1,0 +1,10 @@
+[Unit]
+Description=daemon for tvsapp service
+Requires=nginx.service
+Requires=tvsapp.socket
+
+[Service]
+ExecStart=/opt/isel/tvs/tvsctld/bin/tvsapp_server
+
+[Install]
+WantedBy=multi-user.target
