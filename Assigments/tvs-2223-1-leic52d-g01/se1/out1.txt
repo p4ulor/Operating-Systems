@@ -1,0 +1,10 @@
+bach
+bach.c
+makefile
+out1.txt
+out.txt
+README.md
+shellOfNevesEx.c
+text1.txt
+text2.txt
+TVS-2223-1_SE1.pdf

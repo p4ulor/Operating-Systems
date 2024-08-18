@@ -1,0 +1,18 @@
+The backing storage for physical memory pages can vary depending on the operating system and specific memory management policies in place. However, I can provide some general information on where these pages might typically reside:
+
+1. Page belonging to the mapping of the code section (.text) of an executable file:
+    - I would say: DISK
+   - The backing storage for code pages is typically the executable file itself. These pages are typically mapped from the executable file on disk.
+
+2. Modified page belonging to the mapping of the initialized data section of an executable:
+
+   - Modified data pages (e.g., initialized data) are often stored in a separate area on disk, which could be a data segment of the executable file or a separate data file associated with the executable.
+
+3. Modified page belonging to the mapping of the uninitialized data section of a library (file with .so or shared object extension):
+   - Similar to modified data pages in an executable, modified pages for an uninitialized data section in a shared library are often stored in a separate data file associated with the library.
+
+4. Unmodified page belonging to the PRIVATE mapping of a common file:
+   - Pages marked as PRIVATE typically have their own copy in physical memory, and the backing storage for unmodified PRIVATE pages could be the original file they were mapped from. In this case, it's a common file, but each process mapping it has its own copy in memory.
+
+5. Unmodified page belonging to the mapping of a shared anonymous region (MAP_SHARED | MAP_ANONYMOUS):
+   - For shared anonymous regions, the backing storage is typically not associated with any file on disk. Instead, it's managed by the operating system in shared memory or swap space. Any changes to these pages might be saved in swap space or other similar mechanisms.
